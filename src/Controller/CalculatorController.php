@@ -14,9 +14,10 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class CalculatorController extends AbstractController
 {
@@ -28,7 +29,7 @@ class CalculatorController extends AbstractController
     public function calculate(
         Request                                 $request,
         ValidatorInterface                      $validator,
-        SerializerInterface                     $serializer,
+        DenormalizerInterface $denormalizer,
         CostCalculator                          $calculator,
         #[Autowire('%discount_config%')] string $configPath
     ): Response
@@ -64,16 +65,16 @@ class CalculatorController extends AbstractController
                 $query['trip_date'] = Carbon::now()->format('d.m.Y');
             }
 
-            $filename = $configPath . DiscounterNameEnum::ChildrenDiscounter->value . '.json';
+            $filename = $configPath . DiscounterNameEnum::CHILDREN_DISCOUNTER->value . '.yaml';
 
             if (!file_exists($filename)) {
                 throw new \RuntimeException('Configuration for children`s discounter does not exist.');
             }
 
-            $ageDiscounts = $serializer->deserialize(file_get_contents($filename), 'App\DTO\AgeDiscount[]', 'json');
+            $ageDiscounts = $denormalizer->denormalize(Yaml::parseFile($filename)['ageDiscounts'], 'App\DTO\AgeDiscount[]', 'any');
 
             $calculator->addDiscounter(
-                name: DiscounterNameEnum::ChildrenDiscounter->value,
+                name: DiscounterNameEnum::CHILDREN_DISCOUNTER->value,
                 discounter: new ChildrenDiscounter(
                     tripDate: $query['trip_date'],
                     birthdayDate: $query['birthday_date'],
@@ -82,17 +83,17 @@ class CalculatorController extends AbstractController
             );
 
             if ($query['purchase_date'] !== null) {
-                $filename = $configPath . DiscounterNameEnum::EarlyBookingDiscounter->value . '.json';
+                $filename = $configPath . DiscounterNameEnum::EARLY_BOOKING_DISCOUNTER->value . '.yaml';
 
                 if (!file_exists($filename)) {
                     throw new \RuntimeException('Configuration for early booking`s discounter does not exist.');
                 }
 
-                $periods = $serializer->deserialize(file_get_contents($filename), 'App\DTO\TripPeriod[]', 'json');
+                $periods = $denormalizer->denormalize(Yaml::parseFile($filename)['periods'], 'App\DTO\TripPeriod[]', 'any');
                 $maxDiscount = (int)$_ENV['APP_EARLY_BOOKING_DISCOUNT_MAX'];
 
                 $calculator->addDiscounter(
-                    name: DiscounterNameEnum::EarlyBookingDiscounter->value,
+                    name: DiscounterNameEnum::EARLY_BOOKING_DISCOUNTER->value,
                     discounter: new EarlyBookingDiscounter(
                         tripDate: $query['trip_date'],
                         purchaseDate: $query['purchase_date'],
@@ -108,7 +109,7 @@ class CalculatorController extends AbstractController
 
             return $this->json(['cost' => $cost]);
 
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return $this->json(['errors' => $exception->getMessage()], Response::HTTP_SERVICE_UNAVAILABLE);
         }
     }

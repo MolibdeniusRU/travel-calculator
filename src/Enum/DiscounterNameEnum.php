@@ -4,6 +4,6 @@ namespace App\Enum;
 
 enum DiscounterNameEnum: string
 {
-    case ChildrenDiscounter = 'children_discounter';
-    case EarlyBookingDiscounter = 'early_booking_discounter';
+    case CHILDREN_DISCOUNTER = 'children_discounter';
+    case EARLY_BOOKING_DISCOUNTER = 'early_booking_discounter';
 }

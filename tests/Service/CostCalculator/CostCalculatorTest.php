@@ -23,7 +23,7 @@ class CostCalculatorTest extends TestCase
 
         $discounter = new ChildrenDiscounter('01.01.2024', '01.01.2013', [$ageDiscount]);
 
-        $calculator->addDiscounter(DiscounterNameEnum::ChildrenDiscounter->value, $discounter);
+        $calculator->addDiscounter(DiscounterNameEnum::CHILDREN_DISCOUNTER->value, $discounter);
         $calculator->setBaseCost(10000);
 
         $this->assertSame(8000, $calculator->calculate());

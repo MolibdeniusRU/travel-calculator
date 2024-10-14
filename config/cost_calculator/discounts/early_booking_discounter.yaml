@@ -1,0 +1,48 @@
+periods:
+  # Для создания скидочного периода добавьте объект:
+  #  - trip:
+  #      start: Дата начала путешествия
+  #      end: Дата окончания путешествия
+  #    discounts:
+  #      - start: Дата начала скидочного периода оплаты
+  #        end: Дата окончания скидочного периода оплаты
+  #        percent: Процент скидки
+  - trip:
+      start: 01.04.2025
+      end: 30.09.2025
+    discounts:
+      - start:
+        end: 30.11.2024
+        percent: 7
+      - start: 01.12.2024
+        end: 31.12.2024
+        percent: 5
+      - start: 01.01.2025
+        end: 31.01.2025
+        percent: 3
+  - trip:
+      start: 01.10.2024
+      end: 14.01.2025
+    discounts:
+      - start:
+        end: 31.03.2024
+        percent: 7
+      - start: 01.04.2024
+        end: 31.04.2024
+        percent: 5
+      - start: 01.05.2024
+        end: 31.05.2024
+        percent: 3
+  - trip:
+      start: 15.01.2025
+      end:
+    discounts:
+      - start:
+        end: 31.08.2024
+        percent: 7
+      - start: 01.09.2024
+        end: 31.09.2024
+        percent: 5
+      - start: 01.10.2024
+        end: 31.10.2024
+        percent: 3

@@ -1,0 +1,17 @@
+ageDiscounts:
+  # Для создания возрастного критерия добавьте объект:
+  # - years: int возраст с которого применяется скидка
+  #   percent: int процент скидки
+  #   maxDiscounts: int максимальная скидка для этого возраста
+  - years: 18
+    percent: 0
+    maxDiscount:
+  - years: 12
+    percent: 10
+    maxDiscount:
+  - years: 6
+    percent: 30
+    maxDiscount: 4500
+  - years: 3
+    percent: 80
+    maxDiscount:
