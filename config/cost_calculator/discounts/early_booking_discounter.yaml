@@ -8,41 +8,41 @@ periods:
   #        end: Дата окончания скидочного периода оплаты
   #        percent: Процент скидки
   - trip:
-      start: 01.04.2025
-      end: 30.09.2025
+      start: 01.04.{next-year}
+      end: 30.09.{next-year}
     discounts:
       - start:
-        end: 30.11.2024
+        end: 30.11.{current-year}
         percent: 7
-      - start: 01.12.2024
-        end: 31.12.2024
+      - start: 01.12.{current-year}
+        end: 31.12.{current-year}
         percent: 5
-      - start: 01.01.2025
-        end: 31.01.2025
+      - start: 01.01.{next-year}
+        end: 31.01.{next-year}
         percent: 3
   - trip:
-      start: 01.10.2024
-      end: 14.01.2025
+      start: 01.10.{current-year}
+      end: 14.01.{next-year}
     discounts:
       - start:
-        end: 31.03.2024
+        end: 31.03.{current-year}
         percent: 7
-      - start: 01.04.2024
-        end: 31.04.2024
+      - start: 01.04.{current-year}
+        end: 31.04.{current-year}
         percent: 5
-      - start: 01.05.2024
-        end: 31.05.2024
+      - start: 01.05.{current-year}
+        end: 31.05.{current-year}
         percent: 3
   - trip:
-      start: 15.01.2025
+      start: 15.01.{next-year}
       end:
     discounts:
       - start:
-        end: 31.08.2024
+        end: 31.08.{current-year}
         percent: 7
-      - start: 01.09.2024
-        end: 31.09.2024
+      - start: 01.09.{current-year}
+        end: 31.09.{current-year}
         percent: 5
-      - start: 01.10.2024
-        end: 31.10.2024
+      - start: 01.10.{current-year}
+        end: 31.10.{current-year}
         percent: 3
